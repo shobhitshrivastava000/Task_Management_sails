@@ -76,6 +76,8 @@ module.exports = {
           process.env.ACCESSTOKEN_SECRET,
           { expiresIn: '7d' }
         );
+        req.user = user;
+        
         res.status(HTTP_STATUS.SUCCESS).send({
           success: req.i18n.__('SUCCESS_TRUE'),
           message: req.i18n.__('LOGIN'),

@@ -3,6 +3,7 @@
 	"TASK_ADDED": "Task addded successfully",
 	"TASK_NOT_FOUND": "Task not found",
 	"REQUIRED": "All fields are required",
+	"TOKEN_REQUIRED": "Token Required!!",
 	"INVALID_TOKEN": "Token is not valid",
 	"INVALID_PASSWORD": "Invalid Password!",
 	"INVALID_CREDENTIALS": "Invalid Credentials!,Please check again",
