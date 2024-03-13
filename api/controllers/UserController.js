@@ -21,7 +21,7 @@ module.exports = {
       }
       const userAvailaible = await User.findOne({ email });
       if (userAvailaible) {
-        return res.status(400).send({
+        return res.status(HTTP_STATUS.ALREADY_EXISTS).send({
           success: req.i18n.__('SUCCESS_FALSE'),
           msg: req.i18n.__('ALREADY_EXISTS_EMAIL'),
         });
@@ -77,7 +77,7 @@ module.exports = {
           { expiresIn: '7d' }
         );
         req.user = user;
-        
+
         res.status(HTTP_STATUS.SUCCESS).send({
           success: req.i18n.__('SUCCESS_TRUE'),
           message: req.i18n.__('LOGIN'),
