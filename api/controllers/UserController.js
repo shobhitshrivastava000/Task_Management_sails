@@ -4,26 +4,26 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+// const bcrypt = require('bcrypt');
+// const jwt = require('jsonwebtoken');
 
-
+const { bcrypt, jwt, HTTP_STATUS } = require('../../config/constants');
 
 module.exports = {
   register: async (req, res) => {
     try {
       const { username, email, password } = req.body;
       if (!username || !email || !password) {
-        return res.status(400).send({
-          success: true,
-          message: 'All fields are required',
+        return res.status(HTTP_STATUS.BAD_REQUEST).send({
+          success: req.i18n.__('SUCCESS_FALSE'),
+          message: req.i18n.__('REQUIRED'),
         });
       }
       const userAvailaible = await User.findOne({ email });
       if (userAvailaible) {
         return res.status(400).send({
-          success: false,
-          msg: 'Email already registered',
+          success: req.i18n.__('SUCCESS_FALSE'),
+          msg: req.i18n.__('ALREADY_EXISTS_EMAIL'),
         });
       }
       const hashPassword = await bcrypt.hash(password, 10);
@@ -32,11 +32,18 @@ module.exports = {
         email,
         password: hashPassword,
       }).fetch();
-      res.status(201).json({ _id: newUser.id, email: newUser.email });
+
+      res.status(HTTP_STATUS.SUCCESS).send({
+        success: req.i18n.__('SUCCESS_TRUE'),
+        message: req.i18n.__('SIGNUP'),
+        newUser,
+      });
     } catch (error) {
-      return res
-        .status(500)
-        .send({ message: 'Internal Server Errror While Register' });
+      return res.status(HTTP_STATUS.SERVER_ERROR).send({
+        success: req.i18n.__('SUCCESS_FALSE'),
+        message: req.i18n.__('SERVER_ERROR_USER'),
+        error: error.message,
+      });
     }
   },
 
@@ -44,14 +51,18 @@ module.exports = {
     try {
       const { email, password } = req.body;
       if (!email || !password) {
-        res.status(400).send({
-          success: false,
-          message: 'All fields aare required',
+        return res.status(HTTP_STATUS.BAD_REQUEST).send({
+          success: req.i18n.__('SUCCESS_FALSE'),
+          message: req.i18n.__('REQUIRED'),
         });
       }
       const user = await User.findOne({ email });
+
       if (!user) {
-        res.status(401).json({ message: 'user does not exist' });
+        res.status(HTTP_STATUS.NOT_FOUND).send({
+          success: req.i18n.__('SUCCESS_FALSE'),
+          message: req.i18n.__('USER_NOT_FOUND'),
+        });
       }
       if (user && bcrypt.compare(password, user.password)) {
         const accessToken = jwt.sign(
@@ -65,14 +76,25 @@ module.exports = {
           process.env.ACCESSTOKEN_SECRET,
           { expiresIn: '7d' }
         );
-        res.status(200).json({ accessToken });
+        res.status(HTTP_STATUS.SUCCESS).send({
+          success: req.i18n.__('SUCCESS_TRUE'),
+          message: req.i18n.__('LOGIN'),
+          accessToken
+        });
       } else {
-        res.status(401).send({ msg: 'Email or password is not valid' });
+        res.status(HTTP_STATUS.NOT_FOUND).send({
+          success: req.i18n.__('SUCCESS_FALSE'),
+          message: req.i18n.__('INVALID_PASSWORD'),
+        });
       }
     } catch (error) {
       return res
-        .status(500)
-        .send({ message: 'Internal Server Error In Login' });
+        .status(HTTP_STATUS.SERVER_ERROR)
+        .send({
+          success: req.i18n.__('SUCCESS_FALSE'),
+          message: req.i18n.__('SERVER_ERROR_USER'), 
+          error:error.message
+        });
     }
   },
 };
