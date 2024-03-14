@@ -50,7 +50,7 @@ module.exports = {
       }
 
       return res.status(HTTP_STATUS.SUCCESS).send({
-        message: req.i18n.__('TASK_NOT_FOUND'),
+        message: req.i18n.__('TASK_FOUND'),
         getTask,
       });
     } catch (error) {
