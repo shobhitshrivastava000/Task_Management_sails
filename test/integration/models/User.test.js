@@ -1,11 +1,9 @@
 const { expect } = require('chai');
 
 describe('User Model', () => {
-
   describe('Attributes', () => {
-
     it('should have the correct attribute', () => {
-        console.log(User.attributes)
+      // console.log(User.attributes)
       expect(User.attributes).to.haveOwnProperty('username');
       expect(User.attributes).to.haveOwnProperty('password');
       expect(User.attributes).to.haveOwnProperty('email');

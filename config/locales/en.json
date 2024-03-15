@@ -16,5 +16,6 @@
 	"SUCCESS_FALSE": false,
 	"TASK_TOGGLED": "Task is toggled",
 	"TASK_UPDATED": "Task updated successfully",
-	"TASK_DELETED": "TASK_DELETED"
+	"TASK_DELETED": "TASK_DELETED",
+	"TASK_FOUND": "TASK_FOUND"
 }

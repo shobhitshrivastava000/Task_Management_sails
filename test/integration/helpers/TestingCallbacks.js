@@ -12,8 +12,8 @@ module.exports = {
         return done();
       }
     }
-
   },
+
   parseText: (text) =>{
     try {
       return JSON.parse(text);

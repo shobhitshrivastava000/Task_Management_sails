@@ -81,7 +81,8 @@ module.exports = {
         res.status(HTTP_STATUS.SUCCESS).send({
           success: req.i18n.__('SUCCESS_TRUE'),
           message: req.i18n.__('LOGIN'),
-          accessToken
+          accessToken,
+          user
         });
       } else {
         res.status(HTTP_STATUS.NOT_FOUND).send({

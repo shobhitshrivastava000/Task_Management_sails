@@ -24,7 +24,7 @@ module.exports = {
         userid,
       }).fetch();
 
-      return res.status(HTTP_STATUS.CREATED).json({
+      return res.status(HTTP_STATUS.SUCCESS).json({
         success: req.i18n.__('SUCCESS_TRUE'),
         message: req.i18n.__('TASK_ADDED'),
         newTask,

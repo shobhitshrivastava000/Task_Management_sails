@@ -24,7 +24,8 @@ describe('Testing User Controller ',()=>{
       TestingCallbacks.Testfn(err,res,done);
     });
   });
-} );
+
+});
 
 module.exports = {
   getText: () => text
